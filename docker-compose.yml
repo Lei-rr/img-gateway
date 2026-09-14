@@ -1,0 +1,24 @@
+services:
+  img-gateway:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: ghcr.io/lei-rr/img-gateway:latest
+    container_name: img-gateway
+    ports:
+      - "${PORT:-3001}:${PORT:-3001}"
+    restart: always
+    volumes:
+      - ./data/images:/app/data/images
+    environment:
+      PORT: "${PORT:-3001}"
+      UPSTREAM_URL: "${UPSTREAM_URL:-http://localhost:3000}"
+      UPSTREAM_KEY: "${UPSTREAM_KEY:-}"
+      SERVICE_KEY: "${SERVICE_KEY:-}"
+      PUBLIC_BASE_URL: "${PUBLIC_BASE_URL:-}"
+      MAX_RETRIES: "${MAX_RETRIES:-3}"
+      RETRY_DELAY_MS: "${RETRY_DELAY_MS:-1500}"
+      MAX_CONCURRENT: "${MAX_CONCURRENT:-10}"
+      STAGGER_INTERVAL_MS: "${STAGGER_INTERVAL_MS:-1000}"
+      REQUEST_TIMEOUT_MS: "${REQUEST_TIMEOUT_MS:-45000}"
+      IMAGE_DOWNLOAD_TIMEOUT_MS: "${IMAGE_DOWNLOAD_TIMEOUT_MS:-45000}"
